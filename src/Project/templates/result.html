@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Readmission Risk Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: fadeInScale 0.8s ease;
+        }
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        .risk-banner {
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+            animation: slideInLeft 0.8s ease 0.2s both;
+        }
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .high-risk {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+        .low-risk {
+            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+            color: white;
+        }
+        .risk-level {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .risk-percentage {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            animation: fadeInUp 0.6s ease both;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+        .detail-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #ecf0f1 100%);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .detail-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .detail-item strong {
+            display: block;
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .detail-item span {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .room-bed-section {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #f39c12;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideInRight 0.8s ease 0.4s both;
+        }
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .room-bed-section h3 {
+            color: #e67e22;
+            margin-bottom: 20px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .room-bed-info {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+        }
+        .room-bed-item {
+            flex: 1;
+        }
+        .room-bed-item .label {
+            font-size: 14px;
+            color: #d35400;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .room-bed-item .value {
+            font-size: 42px;
+            font-weight: 700;
+            color: #e67e22;
+        }
+        .recommendations {
+            background: #f0f7ff;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 30px;
+            animation: slideInUp 0.8s ease 0.6s both;
+        }
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .recommendations h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+        .recommendations li {
+            padding: 10px 0;
+            color: #2c3e50;
+            font-size: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .recommendations li:last-child {
+            border-bottom: none;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            animation: bounceIn 0.8s ease 0.8s both;
+        }
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .back-link:hover {
+            transform: translate(0, -2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🏥 Readmission Risk Assessment Report</h2>
+
+    {% if patient_details %}
+        <!-- Risk Assessment Banner -->
+        {% if 'HIGH RISK' in patient_details.risk_level %}
+        <div class="risk-banner high-risk">
+            <div class="risk-level">{{ patient_details.risk_level }}</div>
+            <div class="risk-percentage">Readmission Probability: {{ patient_details.risk_percentage }}</div>
+        </div>
+        {% else %}
+        <div class="risk-banner low-risk">
+            <div class="risk-level">{{ patient_details.risk_level }}</div>
+            <div class="risk-percentage">Readmission Probability: {{ patient_details.risk_percentage }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Hospital Assignment -->
+        <div class="room-bed-section">
+            <h3>🛏️ Hospital Assignment</h3>
+            <div class="room-bed-info">
+                <div class="room-bed-item">
+                    <div class="label">Room No.</div>
+                    <div class="value">{{ patient_details.Room_No }}</div>
+                </div>
+                <div class="room-bed-item">
+                    <div class="label">Bed No.</div>
+                    <div class="value">{{ patient_details.Bed_No }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patient Demographics -->
+        <h3 class="section-title">👤 Patient Demographics</h3>
+        <div class="details-grid">
+            <div class="detail-item">
+                <strong>Patient ID</strong>
+                <span>{{ patient_details.Patient_ID }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Age</strong>
+                <span>{{ patient_details.Age }} yrs</span>
+            </div>
+            <div class="detail-item">
+                <strong>Gender</strong>
+                <span>{{ patient_details.Gender }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Insurance</strong>
+                <span>{{ patient_details.Insurance_Type }}</span>
+            </div>
+        </div>
+
+        <!-- Clinical Information -->
+        <h3 class="section-title">📋 Clinical Information</h3>
+        <div class="details-grid">
+            <div class="detail-item">
+                <strong>Primary Diagnosis</strong>
+                <span>{{ patient_details.Primary_Diagnosis_Group }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Admission Type</strong>
+                <span>{{ patient_details.Admission_Type }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Length of Stay</strong>
+                <span>{{ patient_details.Length_of_Stay }} days</span>
+            </div>
+            <div class="detail-item">
+                <strong>Severity Score</strong>
+                <span>{{ patient_details.Severity_Score }}/10</span>
+            </div>
+        </div>
+
+        <!-- Risk Factors -->
+        <h3 class="section-title">⚠️ Risk Factors</h3>
+        <div class="details-grid">
+            <div class="detail-item">
+                <strong>Previous Admissions</strong>
+                <span>{{ patient_details.Previous_Admissions_6M }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Previous Readmissions</strong>
+                <span>{{ patient_details.Previous_Readmissions_1Y }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Comorbidity Index</strong>
+                <span>{{ patient_details.Comorbidity_Index }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Medications Count</strong>
+                <span>{{ patient_details.Number_of_Medications }}</span>
+            </div>
+        </div>
+
+        <!-- Action Recommendations -->
+        {% if patient_details.recommendation %}
+        <div class="recommendations">
+            <h3>📌 Action Recommendations</h3>
+            <ul>
+                {% for rec in patient_details.recommendation %}
+                <li>{{ rec }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+    {% endif %}
+
+    <center><a href="/" class="back-link">← Search Another Patient</a></center>
+</div>
+
+</body>
+</html>
